@@ -22,7 +22,11 @@ export const TransactionsTable = styled.table`
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
     }
-
+    &:nth-child(5) {
+      padding:0.1px !important;
+      line-height: 0;
+      cursor: pointer;
+    }
     &:last-child {
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;

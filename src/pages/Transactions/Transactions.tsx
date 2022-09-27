@@ -1,3 +1,4 @@
+import { Trash } from "phosphor-react";
 import { useContext } from "react";
 import { Header } from "../../components/Header/Header";
 import { Summary } from "../../components/Summary/Summary";
@@ -11,7 +12,13 @@ import {
 } from "./styles";
 
 export function Transactions() {
-  const { transactions } = useContext(TransactionsContext);
+  const { transactions, handleRemoveTransaction } =
+    useContext(TransactionsContext);
+
+  function onRemove(id: number) {
+    handleRemoveTransaction(id);
+  }
+
   return (
     <div>
       <Header />
@@ -31,6 +38,9 @@ export function Transactions() {
                 </td>
                 <td>{transaction.type}</td>
                 <td>{dateFormatter.format(new Date(transaction.createdAt))}</td>
+                <td onClick={() => onRemove(transaction.id)}>
+                  <Trash size={24}/>
+                </td>
               </tr>
             ))}
           </tbody>
