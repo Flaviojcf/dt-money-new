@@ -17,8 +17,9 @@ const newTransactionFormSchema = zod.object({
 
 type NewTransactionFormInput = zod.infer<typeof newTransactionFormSchema>;
 
-export function NewTransactionModal() {
-  const { createTransaction } = useContext(TransactionsContext);
+export function NewTransactionModalTeste({ id }: any) {
+  const { handlePatchTransaction } = useContext(TransactionsContext);
+  console.log(id);
   const {
     register,
     handleSubmit,
@@ -32,13 +33,15 @@ export function NewTransactionModal() {
     },
   });
 
-  async function handleCreateNewTransaction(data: NewTransactionFormInput) {
+  function handlePatch(data: NewTransactionFormInput) {
     const { description, price, category, type } = data;
-    await createTransaction({
+    const transactionId = id;
+    handlePatchTransaction({
       description,
       price,
       category,
       type,
+      transactionId,
     });
     reset();
   }
@@ -51,7 +54,7 @@ export function NewTransactionModal() {
         <CloseButton>
           <X size={24} />
         </CloseButton>
-        <form onSubmit={handleSubmit(handleCreateNewTransaction)}>
+        <form onSubmit={handleSubmit(handlePatch)}>
           <input
             type="text"
             placeholder="Descrição"
@@ -91,7 +94,7 @@ export function NewTransactionModal() {
             }}
           />
           <button type="submit" disabled={isSubmitting}>
-            Cadastrar
+            Salvar
           </button>
         </form>
       </Content>

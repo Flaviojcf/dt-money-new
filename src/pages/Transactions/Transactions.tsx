@@ -1,4 +1,4 @@
-import { Trash } from "phosphor-react";
+import { Pencil, Trash } from "phosphor-react";
 import { useContext } from "react";
 import { Header } from "../../components/Header/Header";
 import { Summary } from "../../components/Summary/Summary";
@@ -10,6 +10,8 @@ import {
   TransactionsContainer,
   TransactionsTable,
 } from "./styles";
+import * as Dialog from "@radix-ui/react-dialog";
+import { NewTransactionModalTeste } from "../../components/PathTransaction/PathTransaction";
 
 export function Transactions() {
   const { transactions, handleRemoveTransaction } =
@@ -18,7 +20,6 @@ export function Transactions() {
   function onRemove(id: number) {
     handleRemoveTransaction(id);
   }
-
   return (
     <div>
       <Header />
@@ -36,10 +37,25 @@ export function Transactions() {
                     {priceFormatter.format(transaction.price)}
                   </PriceHighLight>
                 </td>
-                <td>{transaction.type}</td>
+                <td>{transaction.category}</td>
                 <td>{dateFormatter.format(new Date(transaction.createdAt))}</td>
                 <td onClick={() => onRemove(transaction.id)}>
-                  <Trash size={24}/>
+                  <span>
+                    <Trash size={24} />
+                  </span>
+                </td>
+                <td>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <span>
+                        <Pencil
+                          className="ph-pencil"
+                          size={24}
+                        />
+                      </span>
+                    </Dialog.Trigger>
+                    <NewTransactionModalTeste id={transaction.id} />
+                  </Dialog.Root>
                 </td>
               </tr>
             ))}

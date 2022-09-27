@@ -12,24 +12,23 @@ export const TransactionsTable = styled.table`
   border-collapse: separate;
   border-spacing: 0 0.5rem;
   margin-top: 1.5rem;
-
   td {
     padding: 1.25rem 2rem;
     background: ${(props) => props.theme["gray-700"]};
-
     &:first-child {
       
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
     }
-    &:nth-child(5) {
-      padding:0.1px !important;
-      line-height: 0;
-      cursor: pointer;
+    &:nth-child(5), :nth-child(6) {
+      padding:0.5rem;
+      & span {
+        cursor: pointer;
+      }
     }
     &:last-child {
-      border-top-left-radius: 6px;
-      border-bottom-left-radius: 6px;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
     }
   }
 `;
@@ -39,7 +38,6 @@ interface PriceHighLightProps {
 }
 
 export const PriceHighLight = styled.span<PriceHighLightProps>`
-
   color: ${(props) =>
     props.variant === "income"
       ? props.theme["green-300"]

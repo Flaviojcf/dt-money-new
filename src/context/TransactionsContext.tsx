@@ -15,6 +15,7 @@ interface TransactionContextType {
   getTransaction: (query?: string) => Promise<void>;
   createTransaction: (data: CreateNewTransaction) => Promise<void>;
   handleRemoveTransaction: (id: number) => void;
+  handlePatchTransaction: (data: PatchTransaction) => void;
 }
 
 interface TransactionProviderProps {
@@ -26,6 +27,13 @@ interface CreateNewTransaction {
   price: number;
   category: string;
   type: "income" | "outcome";
+}
+interface PatchTransaction {
+  description: string;
+  price: number;
+  category: string;
+  type: "income" | "outcome";
+  transactionId: number;
 }
 
 export const TransactionsContext = createContext({} as TransactionContextType);
@@ -61,15 +69,39 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
   }
 
   async function handleRemoveTransaction(id: number) {
-    const response = await api.delete(`/transactions/${id}`);
-    const transaction = transactions.filter((transaction)=>transaction.id !== id)
+    await api.delete(`/transactions/${id}`);
+    const transaction = transactions.filter(
+      (transaction) => transaction.id !== id
+    );
     setTransactions(transaction);
-    
+  }
+
+  async function handlePatchTransaction(data: PatchTransaction) {
+    const { description, price, category, type, transactionId } = data;
+    const response = await api.patch(`transactions/${transactionId}`, {
+      description,
+      price,
+      category,
+      type,
+      createdAt: new Date(),
+    });
+    const transactionAtt = [...transactions];
+    const transactionIndex = transactionAtt.findIndex(
+      (transaction) => transaction.id === transactionId
+    );
+    transactionAtt[transactionIndex] = response.data;
+    setTransactions(transactionAtt);
   }
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, getTransaction, createTransaction, handleRemoveTransaction }}
+      value={{
+        transactions,
+        getTransaction,
+        createTransaction,
+        handleRemoveTransaction,
+        handlePatchTransaction,
+      }}
     >
       {children}
     </TransactionsContext.Provider>
