@@ -1,3 +1,20 @@
 {
-  "transactions": []
+  "transactions": [
+    {
+      "description": "teste1",
+      "price": 1500,
+      "category": "teste1",
+      "type": "income",
+      "createdAt": "2022-09-28T02:38:14.013Z",
+      "id": 1
+    },
+    {
+      "description": "Casa",
+      "price": 1500,
+      "category": "teste",
+      "type": "income",
+      "createdAt": "2022-09-28T02:38:20.490Z",
+      "id": 2
+    }
+  ]
 }

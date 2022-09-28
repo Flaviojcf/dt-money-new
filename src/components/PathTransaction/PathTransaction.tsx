@@ -18,8 +18,13 @@ const newTransactionFormSchema = zod.object({
 type NewTransactionFormInput = zod.infer<typeof newTransactionFormSchema>;
 
 export function NewTransactionModalTeste({ id }: any) {
-  const { handlePatchTransaction } = useContext(TransactionsContext);
-  console.log(id);
+  const { handlePatchTransaction, transactions} = useContext(TransactionsContext);
+
+  const transactionAtt = [...transactions];
+    const transactionIndex = transactionAtt.findIndex(
+      (transaction) => transaction.id === id
+    );
+
   const {
     register,
     handleSubmit,
@@ -32,6 +37,7 @@ export function NewTransactionModalTeste({ id }: any) {
       type: "income",
     },
   });
+
 
   function handlePatch(data: NewTransactionFormInput) {
     const { description, price, category, type } = data;
@@ -59,17 +65,20 @@ export function NewTransactionModalTeste({ id }: any) {
             type="text"
             placeholder="Descrição"
             {...register("description")}
+            defaultValue={transactionAtt[transactionIndex].description}
           />
           <input
             type="number"
             placeholder="Preço"
             {...register("price", { valueAsNumber: true })}
+            defaultValue={transactionAtt[transactionIndex].price}
           />
 
           <input
             type="text"
             placeholder="Categoria"
             {...register("category")}
+            defaultValue={transactionAtt[transactionIndex].category}
           />
 
           <Controller

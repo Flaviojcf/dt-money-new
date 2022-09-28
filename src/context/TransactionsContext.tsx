@@ -40,6 +40,7 @@ export const TransactionsContext = createContext({} as TransactionContextType);
 
 export function TransactionProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransactions] = useState<TransactionProps[]>([]);
+  
 
   async function getTransaction(query?: string) {
     const response = await api.get("/transactions", {
